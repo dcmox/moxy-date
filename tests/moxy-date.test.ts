@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { MoxyDate } from '../moxy-date'
+const MoxyDate = require('../moxy-date')
 
 describe('moxy-date test suite', () => {
 	it('should produce formatted dates', () => {

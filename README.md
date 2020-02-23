@@ -43,3 +43,11 @@ const longDate = new MoxyDate(
 )
 console.log(longDate.toString()) // Outputs '2020-02-23 00:02:13 am @ GMT-0600'
 ```
+
+## Client-side Usage
+
+Below is the webpacked version of moxy-date, for use on the client-side.
+
+```html
+<script src="./dist/moxy-date.js"></script>
+```
