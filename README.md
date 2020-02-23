@@ -8,6 +8,7 @@ By default, MoxyDate supports the following formats:
 
 -   full - February 23rd, 2020 3:02pm
 -   sql - 2020-02-23 15:02:13
+-   utc - 2020-02-23T15:02:13.000Z
 -   short - 02/23/2020
 -   long - Feb 23 2020
 -   iso - 2020-02-23
