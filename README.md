@@ -19,7 +19,7 @@ By default, MoxyDate supports the following formats:
 
 ## Custom Formats
 
-For a full list of formatting variables, please checkout the official [PHP Date documentation](https://www.php.net/manual/en/function.date.php). MoxyDate formatting is heavily inspired by the documentation provided there.
+For a full list of formatting variables, please check out the official [PHP Date documentation](https://www.php.net/manual/en/function.date.php). MoxyDate formatting is heavily inspired by the documentation provided there.
 
 ## Examples
 
