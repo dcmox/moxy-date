@@ -1,8 +1,12 @@
+import { parseDate } from './parse-date'
 import { TZ_DATABASE } from './timezones'
 import { MONTH_TRANSLATION, WEEKDAY_TRANSLATION } from './translations'
 
 // Based on PHP Date format -> https://www.php.net/manual/en/function.date.php with support for YYYY-MM-DD format.
 export class MoxyDate {
+	public static parseDate(s: string, date: Date): Date {
+		return parseDate(s, date)
+	}
 	private _format: string = ''
 	private _date: any = null
 	private _d: string = ''
@@ -40,6 +44,11 @@ export class MoxyDate {
 			this._date.getTimezoneOffset() <
 			Math.max(offset, d.getTimezoneOffset())
 		)
+	}
+
+	public parseDate(s: string): Date {
+		const date = parseDate(s, this._date)
+		return date
 	}
 
 	public tz(tz: string): MoxyDate {

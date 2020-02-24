@@ -21,6 +21,10 @@ By default, MoxyDate supports the following formats:
 
 For a full list of formatting variables, please check out the official [PHP Date documentation](https://www.php.net/manual/en/function.date.php). MoxyDate formatting is heavily inspired by the documentation provided there.
 
+## Functions
+
+-   parseDate(s: string, d: Date) - Parses a string representation of a date, eg: 'five days from now'
+
 ## Examples
 
 ```typescript
@@ -42,6 +46,9 @@ const longDate = new MoxyDate(
 	'Sun Feb 23 2020 00:02:13 GMT-0600',
 )
 console.log(longDate.toString()) // Outputs '2020-02-23 00:02:13 am @ GMT-0600'
+
+const twoDays = 'the day after tomorrow'
+console.log(MoxyDate.parseDate(twoDays, new Date('2020-02-23'))) // Outputs result of new Date('2020-02-25')
 ```
 
 ## Client-side Usage

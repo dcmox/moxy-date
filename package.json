@@ -1,6 +1,6 @@
 {
 	"name": "moxy-date",
-	"version": "0.5.1",
+	"version": "0.5.2",
 	"private": false,
 	"description": "Moxy Date",
 	"main": "moxy-date.js",
