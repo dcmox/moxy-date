@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var parse_date_1 = require("./parse-date");
+var time_since_1 = require("./time-since");
 var timezones_1 = require("./timezones");
 var translations_1 = require("./translations");
 // Based on PHP Date format -> https://www.php.net/manual/en/function.date.php with support for YYYY-MM-DD format.
@@ -22,6 +23,9 @@ var MoxyDate = /** @class */ (function () {
     }
     MoxyDate.parseDate = function (s, date) {
         return parse_date_1.parseDate(s, date);
+    };
+    MoxyDate.timeSince = function (date) {
+        return time_since_1.timeSince(date);
     };
     MoxyDate.prototype.getFormattedDate = function () {
         return this.toString();
@@ -58,6 +62,9 @@ var MoxyDate = /** @class */ (function () {
         this._d = d.toString();
         this._formatted = '';
         return this;
+    };
+    MoxyDate.prototype.timeSince = function () {
+        return time_since_1.timeSince(this._date);
     };
     MoxyDate.prototype.toString = function (format) {
         if (format) {

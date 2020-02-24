@@ -1,4 +1,5 @@
 import { parseDate } from './parse-date'
+import { timeSince } from './time-since'
 import { TZ_DATABASE } from './timezones'
 import { MONTH_TRANSLATION, WEEKDAY_TRANSLATION } from './translations'
 
@@ -6,6 +7,9 @@ import { MONTH_TRANSLATION, WEEKDAY_TRANSLATION } from './translations'
 export class MoxyDate {
 	public static parseDate(s: string, date: Date): Date {
 		return parseDate(s, date)
+	}
+	public static timeSince(date: Date): string {
+		return timeSince(date)
 	}
 	private _format: string = ''
 	private _date: any = null
@@ -63,6 +67,10 @@ export class MoxyDate {
 		this._d = d.toString()
 		this._formatted = ''
 		return this
+	}
+
+	public timeSince(): any {
+		return timeSince(this._date)
 	}
 
 	public toString(format?: string): any {

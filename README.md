@@ -24,6 +24,7 @@ For a full list of formatting variables, please check out the official [PHP Date
 ## Functions
 
 -   parseDate(s: string, d: Date) - Parses a string representation of a date, eg: 'five days from now'
+-   timeSince(d: Date) - Parses a date into a phrase, eg: '5 days ago'
 
 ## Examples
 
@@ -49,6 +50,8 @@ console.log(longDate.toString()) // Outputs '2020-02-23 00:02:13 am @ GMT-0600'
 
 const twoDays = 'the day after tomorrow'
 console.log(MoxyDate.parseDate(twoDays, new Date('2020-02-23'))) // Outputs result of new Date('2020-02-25')
+
+console.log(MoxyDate.timeSince(new Date('2020-02-18'))) // Outputs '5 days ago' (if today were 2020-02-23)
 ```
 
 ## Client-side Usage
