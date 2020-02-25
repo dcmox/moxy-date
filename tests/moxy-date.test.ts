@@ -78,6 +78,16 @@ describe('moxy-date test suite', () => {
 				format: 'day',
 			},
 			{
+				date: new Date('Sun Feb 23 2020 14:02:13 GMT-0600'),
+				expected: 'Sunday, 23-Feb-2020 14:02:13 CST',
+				format: 'cookie',
+			},
+			{
+				date: new Date('Sun Feb 23 2020 14:02:13 GMT-0600'),
+				expected: 'Sun, 23 Feb 2020 14:02:13 -0600',
+				format: 'rss',
+			},
+			{
 				date: new Date('February 20 2020'),
 				expected: 'Thursday',
 				format: 'l',
@@ -141,6 +151,16 @@ describe('moxy-date test suite', () => {
 				date: new Date('Sun Feb 23 2020 00:02:13 GMT-0600'),
 				expected: '2020-02-23 00:02:13 am @ GMT-0600',
 				format: 'yyyy-mm-dd hh:mm:ss a @ eO',
+			},
+			{
+				date: new Date('Sun Feb 23 2020 00:02:13 GMT-0600'),
+				expected: '2020-02-23T00:02:13 am @ GMT-0600',
+				format: 'yyyy-mm-dd\\Thh:mm:ss a @ eO',
+			},
+			{
+				date: new Date('Sun Feb 23 2020 00:02:13 GMT-0600'),
+				expected: '2020-02-23T00:02:13 am @ GMT-0600 ABC',
+				format: 'yyyy-mm-dd\\Thh:mm:ss a @ eO \\A\\B\\C',
 			},
 		]
 		tests.forEach((test) => {

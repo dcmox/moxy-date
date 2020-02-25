@@ -155,6 +155,12 @@ var MoxyDate = /** @class */ (function () {
                 this._formatted = time;
                 return this._formatted;
             }
+            else if (this._format === 'cookie') {
+                this._format = 'l, d-M-Y H:i:s T';
+            }
+            else if (this._format === 'rss') {
+                this._format = 'D, d M Y H:i:s O';
+            }
             var tc = this._tryCase;
             var f = { result: this._format };
             // Process time first, since mm conflicts with m for month
@@ -210,11 +216,11 @@ var MoxyDate = /** @class */ (function () {
             }
             if (f.result.indexOf('O') > -1) {
                 // GMT+0300 -> + 0300
-                f.result = f.result.replace(/O/g, timezone.substring(3));
+                f.result = f.result.replace(/(?<!\\)O/g, timezone.substring(3));
             }
             if (f.result.indexOf('P') > -1) {
                 // GMT+0300 -> +03:00
-                f.result = f.result.replace(/P/g, timezone.substring(3, 6) + ":" + timezone.substring(6));
+                f.result = f.result.replace(/(?<!\\)P/g, timezone.substring(3, 6) + ":" + timezone.substring(6));
             }
             tc(f, 'D', day); // D -> Mon
             tc(f, 'w', translations_1.WEEKDAY_TRANSLATION[day].number); // w -> Sunday -> 0
@@ -224,19 +230,19 @@ var MoxyDate = /** @class */ (function () {
             tc(f, 'N', translations_1.WEEKDAY_TRANSLATION[day].numberAlt); // N -> Monday -> 1, Sunday -> 7
             if (f.result.indexOf('S') > -1) {
                 var suffix = this._getSuffix(date);
-                f.result = f.result.replace(/S/g, suffix);
+                f.result = f.result.replace(/(?<!\\)S/g, suffix);
             }
             var tzIdentifier = timezone.slice(0, 3);
             if (f.result.indexOf('e') > -1) {
                 // Timezone identifier
-                f.result = f.result.replace(/e/g, tzIdentifier);
+                f.result = f.result.replace(/(?<!\\)e/g, tzIdentifier);
                 //// Intl.DateTimeFormat().resolvedOptions().timeZone,
             }
             if (f.result.indexOf('T') > -1) {
                 // Timezone abbreviation, eg: CST, EST.
                 // Replace tzIdentifier with lowercase so we dont have a conflict
                 f.result = f.result.replace(new RegExp(tzIdentifier, 'g'), tzIdentifier.toLowerCase());
-                f.result = f.result.replace(/T/g, tzString
+                f.result = f.result.replace(/(?<!\\)T/g, tzString
                     .replace(/\(|\)/g, '')
                     .split(' ')
                     .map(function (w) { return w.charAt(0); })
@@ -247,7 +253,7 @@ var MoxyDate = /** @class */ (function () {
             tc(f, 'A', parseInt(hours, 10) >= 12 ? 'PM' : 'AM');
             tc(f, 'a', parseInt(hours, 10) >= 12 ? 'pm' : 'am');
             tc(f, 'l', translations_1.WEEKDAY_TRANSLATION[day].full); // l -> Monday
-            this._formatted = f.result;
+            this._formatted = f.result.replace(/\\/g, '');
             return this._formatted;
         }
         return this._d;
@@ -283,12 +289,16 @@ var MoxyDate = /** @class */ (function () {
         return weekNo;
     };
     MoxyDate.prototype._tryCase = function (fObject, dCase, replaceWith) {
+        replaceWith = replaceWith
+            .split('')
+            .map(function (c) { return '\\' + c; })
+            .join('');
         if (dCase instanceof Array) {
             var ret = false;
             for (var _i = 0, dCase_1 = dCase; _i < dCase_1.length; _i++) {
                 var cCase = dCase_1[_i];
                 if (fObject.result.indexOf(cCase) > -1) {
-                    fObject.result = fObject.result.replace(new RegExp(cCase, 'g'), replaceWith);
+                    fObject.result = fObject.result.replace(new RegExp('(?<!\\\\)' + cCase, 'g'), replaceWith);
                     ret = true;
                 }
             }
@@ -296,7 +306,7 @@ var MoxyDate = /** @class */ (function () {
         }
         else {
             if (fObject.result.indexOf(dCase) > -1) {
-                fObject.result = fObject.result.replace(new RegExp(dCase, 'g'), replaceWith);
+                fObject.result = fObject.result.replace(new RegExp('(?<!\\\\)' + dCase, 'g'), replaceWith);
                 return true;
             }
         }

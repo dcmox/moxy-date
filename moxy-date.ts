@@ -169,6 +169,10 @@ export class MoxyDate {
 			} else if (this._format === 'time' || lowerFormat === 'hh:mm:ss') {
 				this._formatted = time
 				return this._formatted
+			} else if (this._format === 'cookie') {
+				this._format = 'l, d-M-Y H:i:s T'
+			} else if (this._format === 'rss') {
+				this._format = 'D, d M Y H:i:s O'
 			}
 
 			const tc = this._tryCase
@@ -263,12 +267,12 @@ export class MoxyDate {
 
 			if (f.result.indexOf('O') > -1) {
 				// GMT+0300 -> + 0300
-				f.result = f.result.replace(/O/g, timezone.substring(3))
+				f.result = f.result.replace(/(?<!\\)O/g, timezone.substring(3))
 			}
 			if (f.result.indexOf('P') > -1) {
 				// GMT+0300 -> +03:00
 				f.result = f.result.replace(
-					/P/g,
+					/(?<!\\)P/g,
 					`${timezone.substring(3, 6)}:${timezone.substring(6)}`,
 				)
 			}
@@ -280,13 +284,13 @@ export class MoxyDate {
 			tc(f, 'N', WEEKDAY_TRANSLATION[day].numberAlt) // N -> Monday -> 1, Sunday -> 7
 			if (f.result.indexOf('S') > -1) {
 				const suffix = this._getSuffix(date)
-				f.result = f.result.replace(/S/g, suffix)
+				f.result = f.result.replace(/(?<!\\)S/g, suffix)
 			}
 
 			const tzIdentifier: string = timezone.slice(0, 3)
 			if (f.result.indexOf('e') > -1) {
 				// Timezone identifier
-				f.result = f.result.replace(/e/g, tzIdentifier)
+				f.result = f.result.replace(/(?<!\\)e/g, tzIdentifier)
 				//// Intl.DateTimeFormat().resolvedOptions().timeZone,
 			}
 
@@ -297,8 +301,9 @@ export class MoxyDate {
 					new RegExp(tzIdentifier, 'g'),
 					tzIdentifier.toLowerCase(),
 				)
+
 				f.result = f.result.replace(
-					/T/g,
+					/(?<!\\)T/g,
 					tzString
 						.replace(/\(|\)/g, '')
 						.split(' ')
@@ -315,7 +320,7 @@ export class MoxyDate {
 			tc(f, 'A', parseInt(hours, 10) >= 12 ? 'PM' : 'AM')
 			tc(f, 'a', parseInt(hours, 10) >= 12 ? 'pm' : 'am')
 			tc(f, 'l', WEEKDAY_TRANSLATION[day].full) // l -> Monday
-			this._formatted = f.result
+			this._formatted = f.result.replace(/\\/g, '')
 			return this._formatted
 		}
 		return this._d
@@ -358,12 +363,16 @@ export class MoxyDate {
 		dCase: string[] | string,
 		replaceWith: string,
 	): boolean {
+		replaceWith = replaceWith
+			.split('')
+			.map((c) => '\\' + c)
+			.join('')
 		if (dCase instanceof Array) {
 			let ret: boolean = false
 			for (const cCase of dCase) {
 				if (fObject.result.indexOf(cCase) > -1) {
 					fObject.result = fObject.result.replace(
-						new RegExp(cCase, 'g'),
+						new RegExp('(?<!\\\\)' + cCase, 'g'),
 						replaceWith,
 					)
 					ret = true
@@ -373,7 +382,7 @@ export class MoxyDate {
 		} else {
 			if (fObject.result.indexOf(dCase) > -1) {
 				fObject.result = fObject.result.replace(
-					new RegExp(dCase, 'g'),
+					new RegExp('(?<!\\\\)' + dCase, 'g'),
 					replaceWith,
 				)
 				return true

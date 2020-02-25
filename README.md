@@ -9,6 +9,8 @@ By default, MoxyDate supports the following formats:
 -   full - February 23rd, 2020 3:02pm
 -   sql - 2020-02-23 15:02:13
 -   utc - 2020-02-23T15:02:13.000Z
+-   cookie - Sunday, 23-Feb-2020 14:02:13 CST
+-   rss - Sun, 23 Feb 2020 14:02:13 -0600
 -   short - 02/23/2020
 -   long - Feb 23 2020
 -   iso - 2020-02-23
@@ -47,6 +49,12 @@ const longDate = new MoxyDate(
 	'Sun Feb 23 2020 00:02:13 GMT-0600',
 )
 console.log(longDate.toString()) // Outputs '2020-02-23 00:02:13 am @ GMT-0600'
+
+const longDateEscaped = new MoxyDate(
+	'yyyy-mm-dd\\Thh:mm:ss a @ eO \\A\\B\\C',
+	'Sun Feb 23T2020 00:02:13 GMT-0600 ABC',
+)
+console.log(longDateEscaped.toString()) // Outputs '2020-02-23T00:02:13 am @ GMT-0600 ABC'
 
 const twoDays = 'the day after tomorrow'
 console.log(MoxyDate.parseDate(twoDays, new Date('2020-02-23'))) // Outputs result of new Date('2020-02-25')
