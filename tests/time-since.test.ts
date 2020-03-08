@@ -10,11 +10,19 @@ describe('moxy timeSince test suite', () => {
 		oneHourAgo.setHours(dateFiveMinAgo.getHours() - 1)
 
 		const oneDayAgo = new Date()
+		const ts = oneDayAgo.valueOf()
+		let isDstDay = false
 		oneDayAgo.setDate(oneDayAgo.getDate() - 1)
+		if ((ts - oneDayAgo.valueOf()) / 1000 / 60 / 60 < 24) {
+			isDstDay = true
+			oneDayAgo.setHours(oneDayAgo.getHours() - 1)
+		}
 
 		const threeDaysAgo = new Date()
 		threeDaysAgo.setDate(threeDaysAgo.getDate() - 3)
-
+		if (isDstDay) {
+			threeDaysAgo.setHours(threeDaysAgo.getHours() - 1)
+		}
 		const oneMonthAgo = new Date()
 		oneMonthAgo.setDate(oneMonthAgo.getDate() - 30)
 
@@ -23,8 +31,14 @@ describe('moxy timeSince test suite', () => {
 
 		const oneWeekAgo = new Date()
 		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+		if (isDstDay) {
+			oneWeekAgo.setHours(oneWeekAgo.getHours() - 1)
+		}
 		const twoWeeksAgo = new Date()
 		twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14)
+		if (isDstDay) {
+			twoWeeksAgo.setHours(twoWeeksAgo.getHours() - 1)
+		}
 		const tests = [
 			{
 				date: dateFiveMinAgo,
